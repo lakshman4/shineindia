@@ -17,7 +17,7 @@
                        <input class="input" type="password" v-model="user.password" required/>
                        <br>
                        <div class="field">
-                       <button class="button is-primary" v-on:click="addUser">Create Account</button>
+                       <button class="button is-primary" v-on:click.prevent="addUser">Create Account</button>
                        </div>
                    </form>
                </div>
