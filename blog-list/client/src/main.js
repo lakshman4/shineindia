@@ -6,6 +6,13 @@ import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
 
 import Routes from './routes'
+import Buefy from 'buefy';
+import 'buefy/dist/buefy.css';
+
+Vue.use(Buefy);
+
+import { ToastProgrammatic as Toast } from 'buefy'
+Toast.open('Toasty!')
 
 // Vue.component('blog-post',{
 //   props:['postTitle','postName','postColor'],
@@ -31,7 +38,7 @@ Vue.directive('rainbow',{
 Vue.directive('theme', {
   bind(el,binding,vnode){
     if(binding.value=='wide'){
-      el.style.maxWidth="650px";  
+      el.style.maxWidth="650px";
     }
   }
 });

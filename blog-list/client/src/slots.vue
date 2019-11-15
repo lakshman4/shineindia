@@ -1,62 +1,63 @@
 <template>
-<div id="lakshman">
-    <form>
-        <select v-model="blog.name">
-        <option v-for="fruit in fruits"> {{fruit}}</option>
-        </select>
-        <h1 v-model="blog.name">{{fruit}}</h1>
-<div id="form-header">
-    <slot name="form-header"> </slot>
+  <div class="container">
+    <div class="large-12 medium-12 small-12 cell">
+      <label>File
+        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+      </label>
+      <button v-on:click="submitFile()">Submit</button>
     </div>
-    <div id="form-fields">
-        <slot name="form-fields"></slot>
-    </div>
-    <div id="form-controls">
-        <slot name="form-control"></slot>
-       </div>
-       </form>
-        <ul>
-        <li><a href="#">Link1</a></li>
-        <li><a href="#">Link2</a></li>
-        <li><a href="#">Link3</a></li>
-        </ul>
-       </div>  
-         </template>
-    
-    <script>
-    export default {
+  </div>
+</template>
+
+<script>
+  export default {
+    /*
+      Defines the data used by the component
+    */
     data(){
-        return{
-            props:['fruits'],
-            blog:{
-                title:'',
-                author:'',
-                name:'',
-                fruit:''
-            },
-            fruits1:['apple','banana','mango','pinapple']
-        }
+      return {
+        file: '',
+      }
     },
-    }     
-    </script>
-    
-    <style>
-    #form-header{
-        background: #2222;
-        text-align:center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 25px;
+
+    methods: {
+      /*
+        Submits the file to the server
+      */
+      submitFile(){
+        /*
+                Initialize the form data
+            */
+            let formData = new FormData();
+
+            /*
+                Add the form data we need to submit
+            */
+            formData.append('file', this.file);
+
+        /*
+          Make the request to the POST /single-file URL
+        */
+            this.$http.post( 'http://localhost:3000/posts/upload',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(data){
+          console.log(data,'SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      },
+      /*
+        Handles a change on the file upload
+      */
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      }
     }
-    #form-fields{
-      
-        width:100%;
-        height:10%;
-        margin:20 0px;
-        padding:45px;
-    }
-    </style>
-    
-
-
-
-
+  }
+</script>

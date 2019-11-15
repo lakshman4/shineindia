@@ -30,18 +30,17 @@
          <div v-for="blog in fiteredBlogs" :key="blog.id" class="single-blog">
 <h1 id="col" class="title is-centered"><strong>Title</strong>
     :{{blog.title | to-uppercase}}</h1>
-<img src="src/img/crop1.png" alt="">
+
     <article> <strong>Content:</strong>{{blog.content}}</article>
-    <p><strong>Author:</strong>{{blog.author}}</p>
+    <p><strong>Author: </strong>{{blog.author}}</p>
+    <p><strong>Date: </strong>{{blog.date}}</p>
   <ul>
                 <li v-for="category in blog.categories"><strong>Category:</strong>{{category}}</li>
             </ul>
-                        <router-link v-bind:to="'/blog/'+ blog.id"><h3 v-rainbow="">{{blog.title | to-uppercase}}</h3>
+                      <router-link v-bind:to="'/blog/'+ blog.id"><h3 v-rainbow="">{{blog.title | to-uppercase}}</h3>
                          <button class="button is-success">Read more</button></router-link>
-
                         <button class="button is-danger"  @click="deletePost(blog._id)">Delete</button>
-                        <button class="button is-secondary">Likes{}</button>
-                        <button class="button is-secondary">UnLikes{}</button>
+
 
                         </div>
 
@@ -51,6 +50,7 @@
 </template>
 
 <script>
+ import toastMixin from '../src/mixins/fieldMixin';
 export default {
 data(){
     return{
@@ -61,17 +61,18 @@ data(){
 
     }
 },
+  mixins: [toastMixin],
 methods:{
    deletePost(_id){
-      if( confirm("Are you sure?")){
+      if( this.confirmCustomDelete() ){
        console.log(_id)
        console.log('sssss')
            this.$http.delete('http://localhost:3000/posts/delete/'+_id).then(function(data){
              return data.json()
                      }).then(data=>{
                           window.location.reload();
-                         console.log(data)
-                         console.log('alalakak')
+                          console.log(data)
+                          console.log('alalakak')
                      });
       }
                 //   return data.json()

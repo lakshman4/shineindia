@@ -13,11 +13,10 @@
         <label class="label">Blog Title:</label>
         <input class="input" type="text" v-model="blog.title" required>
         <label class="label" >Blog Content:</label>
-        <textarea class="input" v-model="blog.content" required></textarea>
+        <textarea id="lak4" class="input" v-model="blog.content" required></textarea>
           <label class="label">Blog Author:</label>
         <input class="input" type="text" v-model="blog.author" required>
-
-
+        <input class="input" type="file" id="mainimage" ref="file" v-on:change="handleFileUpload()" required>
         <br>
         </form>
            <!-- <button class="button is-warning" v-on:click="clearInputs">Reset</button> -->
@@ -28,69 +27,75 @@
   </template>
 
     <script>
-    import {fieldMixin} from './mixins/fieldMixin';
+    import toastMixin from '../src/mixins/fieldMixin';
     import Vue from 'vue'
- import vueValidate from'vee-validate'
-Vue.use(vueValidate);
+    import vueValidate from'vee-validate'
+     Vue.use(vueValidate);
     export default {
 
     data(){
         return{
+
             blog:{
                 errors:[],
                 title:'',
                content:'',
                 categories:[],
                 author:'',
-
+              file:'',
             },
 
         }
     },
+    mixins: [toastMixin],
     methods:
     {
-
+       handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      },
         addBlog:function(){
-            console.log(this.blog.title)
-            if(this.blog.title === '' || this.blog.content === ''){
-                alert('Cannot empty title and content');
+              let formData = new FormData();
+               formData.append('file', this.file);
+               console.log(this.blog.title)
+               if(this.blog.title === '' || this.blog.content === ''){
+                //alert('Cannot empty title and content');
+                this.toast("is-danger", "Fields can't be empty", "is-top");
             }
             else{
-            this.$http.post('http://localhost:3000/posts/create',this.blog)
+            this.$http.post('http://localhost:3000/posts/upload',this.blog,formData,
+            {
+            headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            )
               .then(function(data){
                 console.log(data)
-                alert('blog added')
+                 this.toast("is-success", "Blog added", "is-top");
                 this.$router.push({
-            name:'showblogs'
-        })
+                                     name:'showblogs'
+                                                        })
             });
 
             }
         },
 
-        onSubmit(){
-            this.$validator.validateAll().then(result=>{
-                if(result){
-                    alert('Submit');
-                }
-            })
+
         },
-
-
-
-    }
     }
     </script>
 
     <style>
+    #lak4{
+      width: 500px;
+      height: 80px;
+    }
     #box{
-      background-color:#5d42f5;
+
 
     }
     #add-blog *{
         box-sizing:border-box;
-
-
     }
     #add-blog{
         margin:20px auto;

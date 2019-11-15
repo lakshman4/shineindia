@@ -48,6 +48,7 @@
 
 </template>
 <script>
+import toastMixin from '../src/mixins/fieldMixin';
 export default {
       data:function(){
         return{
@@ -57,6 +58,7 @@ export default {
          }
         }
       },
+          mixins: [toastMixin],
         methods:{
           loginUser: function(){
              console.log(this.user.email)
@@ -67,11 +69,13 @@ export default {
                console.log('viviv', data.status);
               if(data.status === 200){
                 this.$router.push({ name:"menu" });
-                alert('Loggedin Successfully');
+                //alert('Loggedin Successfully');
+                this.toast("is-success", "Welcome back", "is-top");
               }
 
              }).catch(function(err) {
-               alert("please check your credentials")
+              // alert("please check your credentials")
+               this.toast("is-danger", "Invalid email or password", "is-top");
              })
           },
         }

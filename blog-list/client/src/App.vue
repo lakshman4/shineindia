@@ -6,7 +6,6 @@
 
 </template>
 <script>
-import {fieldMixin} from '../src/mixins/fieldMixin';
 import links from './links.vue'
 import data from './data.vue'
 import slots from './slots.vue'
@@ -37,7 +36,7 @@ export default {
    methods:{
 
    },
-    mixin:[fieldMixin],
+
    }
  }
    }

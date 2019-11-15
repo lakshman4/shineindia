@@ -2,7 +2,7 @@
 
 <nav class="menu">
     <p id="menu" class="menu-label"><b>Menu</b></p>
-    <ul class="menu-list">
+    <ul id="rec" class="menu-list">
         <li>
 
                <router-link to="/show"><span class="icon"><i class="fa fa-address-book"></i></span><b>Show Blogs</b></router-link>
@@ -42,6 +42,11 @@
         #menu{
             background-color:lightblue;
             padding:10px;
+
+        }
+        #rec{
+         background-color: aliceblue;
+         padding-block: 40px;
 
         }
         </style>
