@@ -3,7 +3,7 @@ const toastMixin = {
     toast(type, message, position)
     {
       this.$buefy.toast.open({
-        duration: 2000,
+        duration: 4000,
         message: message,
         position: position,
         type: type,

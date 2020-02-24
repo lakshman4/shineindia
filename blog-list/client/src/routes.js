@@ -1,20 +1,45 @@
-import showblogs from './showblogs.vue'
-import links from './links.vue'
-import blog from './blog.vue'
-import single from './single.vue'
-import signup from './signup.vue'
-import login from './login'
-import sideMenu from './sideMenu.vue'
-import slots from './slots.vue'
-export default[
-   {name:'home',path:'/',component:login},
-    {name:'login',path:'/login',component:login},
-    {path:'/add',component:blog},
-    {path:'/blog/:id',component:single},
-    {name:'showblogs',path:'/show',component:showblogs},
-    {path:'/signup',component:signup},
-    {name:'menu',path:'/dashboard',component:sideMenu},
-    {name:'slots',path:'/slots',component:slots}
+import productList from './views/productList';
+import productAdd from '../../client/src/components/components/productAdd'
+import home from './views/home';
+import login from './views/login'
+import menu from './views/menu';
+import list from './views/list';
+import purchasedList from './components/components/purchasedList';
 
+export default[
+  {
+    path:'/',
+    component:home
+  },
+  {
+    name:"productList",
+    path:'/list',
+   component:productList
+  },
+   {
+     path:'/add',
+    component:productAdd
+  },
+  {
+    name:"",
+  path:'/login',
+  component:login,
+  props:true
+  },
+  {
+    name:"menu",
+    path:'/menu',
+    component:menu,
+    props:true
+  },
+  {
+    name:"list",
+    path:'/lists',
+    component:list,
+  },{
+    name:"purchasedList",
+    path:"/purchasedList",
+    component:purchasedList
+  }
 
 ]

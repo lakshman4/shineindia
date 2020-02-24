@@ -1,11 +1,14 @@
 const express = require('express')
 var cors = require('cors')
 var bodyParser  = require('body-parser');
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 const app = express()
 const nodemailer = require('nodemailer')
 const mongoose = require('mongoose');
 const postsRouter = require('./routes/usePosts')
 const loginRouter= require('./routes/loginAuth')
+const productRouter= require('./routes/product')
 mongoose.connect('mongodb://localhost:27017/Posts',{ useNewUrlParser: true })
 const db = mongoose.connection
 
@@ -17,6 +20,7 @@ app.use("*",cors())
 app.use(bodyParser.json());
 app.use('/posts', postsRouter)
 app.use('/reg',loginRouter)
+
 const transporter= nodemailer.createTransport({
   host: 'smtp.gmail.com',
     port: 587,
@@ -27,6 +31,28 @@ const transporter= nodemailer.createTransport({
     pass:"peruri@494"
   }
 });
+  app.post('/signUp', function(req,res){ 
+    var name = req.body.name; 
+    var email =req.body.email; 
+    var password = req.body.password; 
+    var mobile =req.body.phone; 
+  
+    var data = { 
+        "name": name, 
+        "email":email, 
+        "password":password, 
+        "mobile":mobile 
+    } 
+db.collection('details').insertOne(data,function(err, collection){ 
+        if (err) throw err; 
+        console.log("Record inserted Successfully"); 
+              
+    }); 
+          
+    return res.redirect('signup_success.html'); 
+}) 
+
+
 // const mailOptions={
 //   from:'lakshmaiahperuri494@gmail.com',
 //   to:"vimalraj.nie@gmail.com",

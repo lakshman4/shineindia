@@ -1,133 +1,114 @@
 const express = require("express");
 const router = express.Router();
+const crypto = require('crypto');
+const path = require("path");
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
-const Posts =require('../models/posts');
-var multer  = require('multer')
+const Purchase =require('../models/purchaseProd');
+const Comments = require('../models/comments');
+var multer  = require('multer');
 const verifyToken= require('../routes/verifyToken');
 const loginUser = require('../routes/loginAuth');
+const xlsxtojson= require('xlsx-to-json');
+const xlstojson= require('xls-to-json');
+const Products = require('../models/productDetails');
+    
+      //product adding
+      router.post('/productAdd',async(req,res)=>{
+        console.log("eddd");
+        const usedProducts= new Products({
+            name: req.body.name,
+            price:req.body.price, 
+            model:req.body.model 
+        })
+        try{
+            const response= await usedProducts.save();
+            res.json(usedProducts);
+            console.log(response);
+        }
+        catch(e){
+          res.status(500).json({message:e.message})
+        }
+        });
+ // Product lists 
 
-// SET STORAGE
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
- 
-var upload = multer({ storage: storage })
-
-router.get('/',(req,res)=>{
-    res.send('Lakshmaiah');
-})
-router.get('/hello',(req,res)=>{
-    res.send('asdfg')
-})
-router.post('/upload',upload.single('file'),async(req,res)=>{
-  const usedPosts= new Posts({
-     title:req.body.title,
-       content:req.body.content,
-     author:req.body.author,
+ router.get('/productList',async(req,res)=>{
+   try{     
+    const productList= await Products.find();
+    res.status(200).json(productList);
+    console.log(productList);
+   }
+   catch(e){
+     res.status(500).json({message:err.message});
+   }
+   });
+//Purchase products
+router.post('/purchase',async(req,res)=>{
+  const usedProducts= new Purchase ({
+     name:req.body.name,
+     price:req.body.price,
+     model:req.body.model,
+     quantity:req.body.quantity,
+     deliveryLocation:req.body.deliveryLocation,
+     owner:req.body.owner,
     
     });
-    const file=new Posts({
-     file: req.file,
-    })
-  if(file){
-    res.send(file);
-  }
-  else{
-    res.status(404).json({message: err.message});
-  }
   try{
-    // posts.insert({
-    //   "title":title,
-    //   "content":content,
-    //   "author":author,
-    //   "mainimage":mainimage,
-      
-    // })
-    const response= await usedPosts.save();
-        console.log(usedPosts);
-        res.json(usedPosts);
+        const response= await usedProducts.save();
+        console.log(usedProducts);
+        res.json(usedProducts);
   }
-  catch(err){
+  catch(e){
     res.status(404).json({message: err.message});
   }
 });
-// router.post('/create', upload.single('file'),  async(req,res)=>{
-//   const file=new Posts({
-//    file: req.file
-//   });
-//   const usedPosts= new Posts({
-//   title:req.body.title,
-//   content:req.body.content,
-//   author:req.body.author,
-  
+//getting all the purchased products
+router.get('/purchasedProducts',async(req,res)=>{
+  try{
+    const purchasedList= await Purchase.find();
+    res.status(200).json(purchasedList);
+  }
+  catch(e){
+    res.status(404).json({message:err.message})
 
-//   });
-//   if(!file){
-//     console.log('no file')
-//   }else{
-// res.send(file)
-//   }
-//   console.log(usedPosts);
-//   try{
-//     const response= await usedPosts.save();
-//     console.log(usedPosts);
-//      res.json(usedPosts);
-//   }
-//   catch (err){
-  
-//   res.status(404).json({message: err.message});
-//   }
-  
-// });
-// router.post('/upload', upload.single('file'), (req, res, next) => {
-//   const file = req.file
-//   if (!file) {
-//     const error = new Error('Please upload a file')
-//     error.httpStatusCode = 400
-//     return next(error)
-//   }
-//     res.send(req.file.filename)
-  
-// })
-//list the all the posts
-router.get('/lists', async(req,res)=>{
-  try{
-  const list= await Posts.find();
- return res.json(list);
- res.json(list)
   }
-  catch(err){
-    res.status(500).json({message:err.message});
-  }
+})
+//search by name in the product list
+router.get('/productList/:search', function(req, res, next) {
+  var search = req.params.search;
+  Products.find({name: search}, function (err, products) {
+      if(err) {
+      res.json(err);
+      }
+      else{
+      res.json(products);
+      }
+  });
 });
-router.delete('/delete/:id',getPost,async(req,res)=>{
+
+//delete a product 
+router.delete('/delete/:id',getProduct,async(req,res)=>{
   
   try{
-      await res.post.remove();
+      await res.product.remove();
       res.send({ message: " Post Deleted" });
     } catch (err) {
       res.status(500).json({ message: err.message });
   }
   });
-async function getPost(req, res, next) {
-    let post;
+  async function getProduct(req, res, next) {
+    let product;
     try {
-     post= await Posts.findById(req.params.id);
-      if (post == null) {
-        return res.status(404).send({ message: "Cannot find Post" }); 
+     product= await Products.findBy(req.params.id);
+      if (product == null) {
+        return res.status(404).send({ message: "Cannot find Product" }); 
         
       }
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
-  
-    res.post = post;
+    res.product = product;
     next();
-  }
+  };
 
 module.exports=router;                 

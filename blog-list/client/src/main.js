@@ -1,18 +1,19 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from "./store";
 import VueResource from 'vue-resource'
 // import blog from './blog.vue'
 // import showblogs from './showblogs'
 import VueRouter from 'vue-router'
-
 import Routes from './routes'
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+import babelPolyfill from 'babel-polyfill'
+
 
 Vue.use(Buefy);
-
 import { ToastProgrammatic as Toast } from 'buefy'
-Toast.open('Toasty!')
+Toast.open('LAkshman toast!')
 
 // Vue.component('blog-post',{
 //   props:['postTitle','postName','postColor'],
@@ -35,8 +36,8 @@ Vue.directive('rainbow',{
     el.style.color="white";
   }
 });
-Vue.directive('theme', {
-  bind(el,binding,vnode){
+ Vue.directive('theme', {
+   bind(el,binding,vnode){
     if(binding.value=='wide'){
       el.style.maxWidth="650px";
     }
@@ -54,6 +55,7 @@ export const buss= new Vue({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router:router
+  router:router,
+  store:store,
 })
 
