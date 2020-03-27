@@ -58,14 +58,14 @@ export default {
            email:'',
            password:'',
          },
-         loggedInUser:"lakshmaiahahahah",
+         loggedInUser:"",
         }
       },
 
         methods:{
           loginUser: function(){
              console.log(this.user.email)
-            this.$http.post('http://localhost:3000/reg/login',this.user)
+            this.$http.post('http://localhost:4000/reg/login',this.user)
              .then(function(response){
                console.log(response);
               if(response.status === 200){
@@ -73,15 +73,15 @@ export default {
                 console.log(this.loggedInUser);
                 this.$store.dispatch("setCurrUser", this.loggedInUser);
                 this.$router.push({
-                  name:"menu"});
-                //alert('Loggedin Successfully');
-                this.toast("is-success", "Welcome back", "is-top");
+                  name:"home"});
+                alert('Loggedin Successfully');
+               // this.toast("is-success", "Welcome back", "is-top");
 
               }
 
              }).catch(function(err) {
               //alert("please check your credentials")
-               this.toast("is-danger", "Invalid email or password", "is-top");
+               //this.toast("is-danger", "Invalid email or password", "is-top");
              })
 
           },

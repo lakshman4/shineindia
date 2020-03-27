@@ -1,15 +1,18 @@
 import productList from './views/productList';
 import productAdd from '../../client/src/components/components/productAdd'
-import home from './views/home';
+import homePage from './views/homepage';
 import login from './views/login'
 import menu from './views/menu';
 import list from './views/list';
 import purchasedList from './components/components/purchasedList';
 
+
 export default[
   {
     path:'/',
-    component:home
+    component:homePage,
+    name:"home",
+    props:true
   },
   {
     name:"productList",

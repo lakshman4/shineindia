@@ -13,18 +13,24 @@ export default new Vuex.Store({
 
   state:{
     currentUser:"",
+    products:"",
   },
   mutations:{
     setCurrentUser(state,user){
       state.currentUser=user
     },
+    setTotalProducts(state,products){
+      state.products=products
+    }
 
   },
   actions:{
     setCurrUser({commit},user){
       commit("setCurrentUser",user);
+    },
+    setProducts({commit},products){
+      commit("setTotalProducts",products);
     }
-
   }
 
 })

@@ -67,6 +67,6 @@ db.collection('details').insertOne(data,function(err, collection){
 //   }
 // })
  
-app.listen(3000, () => console.log('Server Started'))
+app.listen(4000, () => console.log('Server Started'))
 
 

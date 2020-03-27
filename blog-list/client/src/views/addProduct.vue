@@ -8,7 +8,6 @@
        <form id= "form">
         <label class="label">Product Name:</label>
         <input class="input" id="searchBox" type="text" v-model="product.name" required>
-
         <label class="label" >Price:</label>
         <input id="searchBox" type="number" class="input" v-model="product.price" required>
           <label class="label">Product Model:</label>
@@ -38,6 +37,7 @@ export default {
         price:"",
         model:"",
       },
+      products:"",
       productList:{}
 
 
@@ -60,6 +60,9 @@ export default {
           let proValue=  await products.createProduct(product);
              console.log("event clcked ");
              console.log(proValue.data);
+             this.products=proValue.data;
+             this.$store.dispatch(" setProducts", this.products);
+             console.log(this.products,"numberrrrrrrrrrrr")
           if(proValue.status==200){
             alert("added successfully");
              window.location.reload();

@@ -1,4 +1,5 @@
 <template>
+
 <Vuetable
               ref="Vuetable"
               :api-mode="false"
@@ -61,9 +62,12 @@ data(){
 
      async created(){
      let response='';
+     let count='';
      response= await products.getPurchasedList()
      this.purchaseProductList=response.data;
      console.log('purchaseList',this.purchaseProductList)
+     count = this.purchaseProductList.length;
+     console.log(count,"count........");
 }
 
 

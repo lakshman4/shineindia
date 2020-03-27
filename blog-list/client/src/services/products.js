@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiServer= axios.create({
-  baseURL:"http://localhost:3000",
+  baseURL:"http://localhost:4000",
   withCredentials:false,
   headers: {
     Accept: "application/json",
@@ -45,5 +45,13 @@ export default{
   //getting purchased productList
   getPurchasedList(){
     return apiServer.get(`/posts/purchasedProducts`);
+  },
+  //count for all the products
+  getProductCount(){
+    return apiServer.get(`/posts/productCount`);
+  },
+   //count for all the purchased products
+   getPurchaseCount(){
+    return apiServer.get(`/posts/purchaseCount`);
   }
 }

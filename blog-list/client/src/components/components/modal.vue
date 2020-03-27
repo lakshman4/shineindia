@@ -4,7 +4,7 @@
   <p>{{getCurrentUser}}</p>
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Login</p>
+                        <p class="modal-card-title">Delivery details</p>
                     </header>
                     <section class="modal-card-body">
                         <b-field label="Quantity">
@@ -24,9 +24,10 @@
 
                      <footer class="modal-card-foot">
                         <button class="button" type="button" @click="$parent.close()">Close</button>
-                        <button class="button is-primary" @click="addToCart(product)">Submit</button>
+                        <button class="button is-primary" @click.prevent="addToCart(product)">Submit</button>
                     </footer>
                 </div>
+
             </form>
 
  </template>
@@ -51,29 +52,26 @@ export default {
           console.log(">>>>", this.currentUser);
             res= this.currentUser;
          this.owner= res;
-          console.log("owner",this.owner);
+          console.log("owner123",this.owner);
   }
   },
   methods:{
-     async addToCart(product){
+     addToCart(product){
              console.log("proooooooo",this.quantity, this.deliveryLocation);
 
              product.quantity = this.quantity;
              product.price= parseInt(this.quantity*product.price);
              product.deliveryLocation = this.deliveryLocation;
              product.owner= this.owner;
-             console.log("from ammamamamamm",this.owner);
              console.log('priceeeeeeeeeeeeeeee',product.price);
-            try{
-             alert("Addedd success fully")
-             return await products.purchaseProducts(product);
-             console.log("LAKSKSJSJSJSJSJSK",product);
-
-            }
-           catch(err){
-             console.log("something went wrong");
-             }
-
+          if(product.quantity==""||product.deliveryLocation==""){
+            alert("please fill all the details");
+          }
+          else{
+             return products.purchaseProducts(product);
+             this.$router.push({
+                  name:"home"});
+          }
           }
   },
 

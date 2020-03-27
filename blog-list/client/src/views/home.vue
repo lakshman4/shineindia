@@ -35,18 +35,18 @@
     </div>
   </div>
 </nav>
-<div class="">
+<div class="menu">
 <aside class="menu">
     <p class="menu-label">Main Menu</p>
     <ul class="menu-list">
       <li>
         <a>
-        All The Products
+       Total Products :
         </a>
       </li>
       <li>
         <a>
-        Add New
+       Pusrchased Products :
         </a>
       </li>
       <li>
@@ -59,38 +59,4 @@
 </div>
 </div>
  </template>
-        <script>
-        export default{
-           data(){
-               return{
-                //    website:"https://stage.manufacton.com",
-                //     color:'red',
-               }
-           },
-           methods:{
-           }
-            }
-        </script>
-        <style scoped>
-        #header1{
-          font-size: 27px;
-          text-decoration-color: white;
-        }
-        #menu{
-            background-color:lightblue;
-            padding:10px;
-        }
-        #login{
-        position: absolute;
-         padding-block: 40px;
-         top: 150px;
-         right: 170px;
-         bottom: 160px;
-        }
-        #loginTitle{
-          width: 120px;
-          height: 45px;
-          background-color: black
-        }
 
-        </style>

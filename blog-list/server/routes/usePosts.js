@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express");    
 const router = express.Router();
 const crypto = require('crypto');
 const path = require("path");
@@ -23,13 +23,39 @@ const Products = require('../models/productDetails');
         })
         try{
             const response= await usedProducts.save();
-            res.json(usedProducts);
-            console.log(response);
+            // res.json(usedProducts);
+            // console.log(response);
+            const productList= await Products.find();
+            res.status(200).json(productList.length);
+
         }
         catch(e){
           res.status(500).json({message:e.message})
         }
         });
+        //count of all
+router.get('/productCount',async(req,res)=>{
+  try{
+    const productList= await Products.find();
+
+    res.status(200).json(productList.length);
+  }
+  catch(e){
+    res.status(500).json({message:err.message});
+  }
+})
+//
+router.get('/purchaseCount',async(req,res)=>{
+  try{
+    const purchasedList= await Purchase.find();
+
+    res.status(200).json(purchasedList.length);
+  }
+  catch(e){
+    res.status(500).json({message:err.message});
+  }
+})
+
  // Product lists 
 
  router.get('/productList',async(req,res)=>{
@@ -59,7 +85,7 @@ router.post('/purchase',async(req,res)=>{
         res.json(usedProducts);
   }
   catch(e){
-    res.status(404).json({message: err.message});
+    res.status(404).json({message: e.message});
   }
 });
 //getting all the purchased products
@@ -85,6 +111,35 @@ router.get('/productList/:search', function(req, res, next) {
       }
   });
 });
+//update a product
+router.put('/edit/:id',updateProduct,async(res,req)=>{
+  
+})
+async function updateProduct(req,res,next){
+  let newProduct;
+  try{
+    newProduct= await Products.findByIdAndUpdate(req.params.id,req.body,{new:true})
+  if (newProduct == null) {
+    return res.status(404).send({ message: "Cannot find Product" }); 
+    
+  }
+} 
+catch (err) {
+  return res.status(500).json({ message: err.message });
+}
+res.newProduct = newProduct;
+console.log("newwwwwwww",newProduct);
+}
+//Get a single product
+router.get('/single/:id',async(req,res)=>{
+  try{
+     let single = await Products.findById(req.params.id)
+     return res.json(single)
+  }
+  catch(err){
+    return res.status(500).json({ message: err.message });
+  }
+});
 
 //delete a product 
 router.delete('/delete/:id',getProduct,async(req,res)=>{
@@ -99,7 +154,7 @@ router.delete('/delete/:id',getProduct,async(req,res)=>{
   async function getProduct(req, res, next) {
     let product;
     try {
-     product= await Products.findBy(req.params.id);
+     product= await Products.findById(req.params.id);
       if (product == null) {
         return res.status(404).send({ message: "Cannot find Product" }); 
         

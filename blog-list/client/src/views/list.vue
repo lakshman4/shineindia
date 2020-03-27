@@ -77,7 +77,7 @@ data(){
       product:{
 
       },
-      isModalActive:false,
+      isComponentModalActive:false
   }
 },
  async created(){
@@ -97,8 +97,8 @@ methods:{
              console.log("!!!!!!!!!!!!!!!!!!!", product);
              this.product = product;
              this.isComponentModalActive = true
-             //return await products.purchaseProducts(product);
-             this.isModalActive=true;
+             return await products.purchaseProducts(product);
+
           }
 }
 }
