@@ -24,7 +24,7 @@
 
                      <footer class="modal-card-foot">
                         <button class="button" type="button" @click="$parent.close()">Close</button>
-                        <button class="button is-primary" @click.prevent="addToCart(product)">Submit</button>
+                        <button class="button is-primary" @click.prevent="orderNow(product)">Submit</button>
                     </footer>
                 </div>
 
@@ -56,7 +56,7 @@ export default {
   }
   },
   methods:{
-     addToCart(product){
+    async orderNow(product){
              console.log("proooooooo",this.quantity, this.deliveryLocation);
 
              product.quantity = this.quantity;
@@ -64,13 +64,15 @@ export default {
              product.deliveryLocation = this.deliveryLocation;
              product.owner= this.owner;
              console.log('priceeeeeeeeeeeeeeee',product.price);
-          if(product.quantity==""||product.deliveryLocation==""){
-            alert("please fill all the details");
+             if(product.quantity==""||product.deliveryLocation==""){
+             alert("please fill all the details");
           }
           else{
-             return products.purchaseProducts(product);
-             this.$router.push({
-                  name:"home"});
+             alert("added successfully");
+             this.isOpen=false;
+            return await products.purchaseProducts(product);
+            console.log('overrrrrrrrrrrr');
+
           }
           }
   },

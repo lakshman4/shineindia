@@ -7,6 +7,7 @@
  const app = express();
  var bcrypt = require('bcryptjs');
  var session = require('express-session')
+ const verifyToken= require('../routes/verifyToken');
  var multer  = require('multer');
 
  const upload = multer({
@@ -89,10 +90,10 @@
             if(!validPassword){
                 return res.status(400).send("password is wrong");
             }else{
-              // const token = jwt.sign({ _id: user._id }, 'lakshmaiaahahahahh');
-              // res.header("auth-token", token).send(token);
-              res.json(user.name);
-              console.log(user);
+              const token = jwt.sign({ _id: user._id }, 'lakshmaiaahahahahh');
+              res.header("auth-token", token).send(token);
+             // res.json(token);
+              console.log(token,"lkshmaiahahaha");
             }
             
         });

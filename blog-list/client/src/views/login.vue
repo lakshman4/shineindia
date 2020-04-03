@@ -71,7 +71,8 @@ export default {
               if(response.status === 200){
                 this.loggedInUser=response.data;
                 console.log(this.loggedInUser);
-                this.$store.dispatch("setCurrUser", this.loggedInUser);
+                localStorage.setItem('auth-token',response.data);
+                this.$store.dispatch("setCurrToken", true);
                 this.$router.push({
                   name:"home"});
                 alert('Loggedin Successfully');

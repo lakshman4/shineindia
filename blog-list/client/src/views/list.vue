@@ -97,7 +97,7 @@ methods:{
              console.log("!!!!!!!!!!!!!!!!!!!", product);
              this.product = product;
              this.isComponentModalActive = true
-             return await products.purchaseProducts(product);
+            //  return await products.purchaseProducts(product);
 
           }
 }

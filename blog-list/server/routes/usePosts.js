@@ -58,7 +58,7 @@ router.get('/purchaseCount',async(req,res)=>{
 
  // Product lists 
 
- router.get('/productList',async(req,res)=>{
+ router.get('/productList', async(req,res) =>{
    try{     
     const productList= await Products.find();
     res.status(200).json(productList);
@@ -165,5 +165,17 @@ router.delete('/delete/:id',getProduct,async(req,res)=>{
     res.product = product;
     next();
   };
+  //Verify token function
+//   async function verifyToken(req,res,next){
+//   const token = req.header("auth-token");
+//   if (!token) return res.status(401).send("Access Denied");
+//   try {
+//     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+//     req.user = verified;
+//     next();
+//   } catch (err) {
+//     res.status(400).send("Invalid Token");
+//   }
+// };
 
 module.exports=router;                 

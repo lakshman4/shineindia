@@ -41,7 +41,8 @@
             <div class="content">
            <router-link to="/lists">
           <a class="navbar-item" >
-           Total Products  : {{productsCount}}
+          <strong> Total Products : </strong> <b>{{productsCount}}</b>
+
           </a>
           </router-link>
         </div>
@@ -52,7 +53,7 @@
             <div class="content">
          <router-link to="/purchasedList">
           <a class="navbar-item" >
-           Purchased Products  : {{purchasedCount}}
+          <strong> Purchased Products  : </strong> <b>{{purchasedCount}}</b>
           </a>
           </router-link>
         </div>
@@ -63,15 +64,16 @@
             <div class="content">
          <router-link to="/add">
           <a class="navbar-item" >
-            <span>Add New Product<i class=" fa fas-plus"></i></span>
+          <strong>Add New Product </strong>
           </a>
           </router-link>
         </div>
           </div>
         </div>
-
       </div>
     </div>
+    <button class="button is-primary" v-on:click="logOut()">Logout</button>
+
     <footer class="footer">
   <div class="content has-text-centered">
     <p>
@@ -110,6 +112,13 @@ export default {
         res2= await products.getPurchasedList();
         this.purchasedCount=res2.data.length;
         console.log(this.purchasedCount);
+      },
+       logOut(){
+         console.log('logouttttttttttttttt')
+        localStorage.removeItem('auth-token');
+         this.$router.push({
+                  name:"/"});
+
       }
     }
   }

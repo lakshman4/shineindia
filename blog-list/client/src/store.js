@@ -12,12 +12,12 @@ export default new Vuex.Store({
   plugins: [vuexPersist.plugin],
 
   state:{
-    currentUser:"",
+    authenticated:false,
     products:"",
   },
   mutations:{
-    setCurrentUser(state,user){
-      state.currentUser=user
+    setToken(state,status){
+      state.authenticated=status
     },
     setTotalProducts(state,products){
       state.products=products
@@ -25,8 +25,8 @@ export default new Vuex.Store({
 
   },
   actions:{
-    setCurrUser({commit},user){
-      commit("setCurrentUser",user);
+    setCurrToken({commit},status){
+      commit("setToken",status);
     },
     setProducts({commit},products){
       commit("setTotalProducts",products);
